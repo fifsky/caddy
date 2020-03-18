@@ -1,2 +1,2 @@
-FROM caddy/caddy:latest
-COPY ./Caddyfile /etc/caddy/Caddyfile
+FROM abiosoft/caddy:latest
+COPY ./Caddyfile /etc/Caddyfile
