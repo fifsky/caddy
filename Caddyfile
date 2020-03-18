@@ -27,6 +27,12 @@ mock.fifsky.com {
     proxy / 172.17.0.1:40001
 }
 
+go.fifsky.com {
+    tls fifsky@gmail.com
+
+    proxy / gostruct-web:2015
+}
+
 api.fifsky.com {
     tls fifsky@gmail.com
 
