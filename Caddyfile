@@ -1,4 +1,6 @@
 fifsky.com {
+    tls fifsky@gmail.com
+
     proxy /api 172.17.0.1:8081 {
        without api
     }
@@ -14,13 +16,19 @@ fifsky.com {
 }
 
 www.fifsky.com {
+    tls fifsky@gmail.com
+
     redir https://fifsky.com{uri}
 }
 
 mock.fifsky.com {
+    tls fifsky@gmail.com
+
     proxy / 172.17.0.1:40001
 }
 
 api.fifsky.com {
+    tls fifsky@gmail.com
+
     proxy / 172.17.0.1:8881
 }
