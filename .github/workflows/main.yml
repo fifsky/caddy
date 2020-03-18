@@ -28,7 +28,7 @@ jobs:
           docker rm caddy
           docker rmi registry-vpc.cn-shanghai.aliyuncs.com/fifsky/caddy:latest
           docker pull registry-vpc.cn-shanghai.aliyuncs.com/fifsky/caddy
-          docker run -d --name caddy --restart always -p 80:80 -p 443:443 -v /home/wwwroot/:/site/ -v /root/.caddy:/root/.caddy registry-vpc.cn-shanghai.aliyuncs.com/fifsky/caddy
+          docker run -d --name caddy --restart always -p 80:80 -p 443:443 --network fifsky --network-alias caddy -v /home/wwwroot/:/site/ -v /root/.caddy:/root/.caddy registry-vpc.cn-shanghai.aliyuncs.com/fifsky/caddy
           docker logs caddy
 
     - name: Dingtalk message
