@@ -30,5 +30,5 @@ mock.fifsky.com {
 api.fifsky.com {
     tls fifsky@gmail.com
 
-    proxy / api
+    proxy / gostruct:8989
 }
