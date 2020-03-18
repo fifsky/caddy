@@ -1,15 +1,15 @@
 fifsky.com {
     tls fifsky@gmail.com
 
-    proxy /api blog {
+    proxy /api blog:8081 {
        without api
     }
 
-    proxy /feed.xml blog {
+    proxy /feed.xml blog:8081 {
         without feed.xml
     }
 
-    proxy / blog-web {
+    proxy / blog-web:2015 {
        without api
        without feed.xml
     }
