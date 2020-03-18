@@ -1,0 +1,53 @@
+https://www.fifsky.com, https://fifsky.com {
+    tls /blog/cert/fifsky.com.crt /blog/cert/fifsky.com.key
+    root /blog/dist/
+
+    redir 301 {
+        if {host} is www.fifsky.com
+        / https://fifsky.com{uri}
+    }
+
+    rewrite {
+       if {file} not feed.xml
+       if {path} not_starts_with /api/
+       to /
+    }
+
+    proxy /api 127.0.0.1:8081 {
+       without api
+    }
+
+    proxy /feed.xml 127.0.0.1:8081 {
+        without feed.xml
+    }
+}
+
+http://www.fifsky.com, http://fifsky.com {
+    redir https://fifsky.com{uri}
+}
+
+api.fifsky.com {
+    proxy / 127.0.0.1:8989
+}
+
+chibaole.com {
+    root /home/wwwroot/chibaole.com/
+
+    header / Strict-Transport-Security "15768000"
+
+    gzip {
+        level 3
+        ext .css .js
+    }
+}
+
+mdwiki.fifsky.com {
+    root /home/wwwroot/mdwiki/
+
+    header / Strict-Transport-Security "15768000"
+
+    gzip {
+        level 3
+        ext .css .js
+    }
+}

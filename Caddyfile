@@ -1,0 +1,28 @@
+fifsky.com {
+    root /site/blog/dist/
+    rewrite {
+       if {file} not feed.xml
+       if {path} not_starts_with /api/
+       to /
+    }
+
+    proxy /api 127.0.0.1:8081 {
+       without api
+    }
+
+    proxy /feed.xml 127.0.0.1:8081 {
+        without feed.xml
+    }
+}
+
+www.fifsky.com {
+    redir https://fifsky.com{uri}
+}
+
+mock.fifsky.com {
+    proxy / 172.17.0.1:40001
+}
+
+api.fifsky.com {
+    proxy / 127.0.0.1:8989
+}

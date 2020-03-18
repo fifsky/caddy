@@ -1,0 +1,42 @@
+name: build
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Build the Docker image
+      run: |
+        docker login --username=${{secrets.DOCKER_USERNAME}} --password=${{secrets.DOCKER_PASSWORD}} registry.cn-shanghai.aliyuncs.com
+        docker build . --file Dockerfile --tag registry.cn-shanghai.aliyuncs.com/fifsky/caddy
+        docker push registry.cn-shanghai.aliyuncs.com/fifsky/caddy
+
+    - name: Publish to Aliyun
+      uses: fifsky/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        user: root
+        key: ${{ secrets.PRIVATE_KEY}}
+        command: |
+          docker login --username=${{secrets.DOCKER_USERNAME}} --password=${{secrets.DOCKER_PASSWORD}} registry-vpc.cn-shanghai.aliyuncs.com
+          docker stop caddy
+          docker rm caddy
+          docker rmi registry-vpc.cn-shanghai.aliyuncs.com/fifsky/caddy:latest
+          docker pull registry-vpc.cn-shanghai.aliyuncs.com/fifsky/caddy
+          docker run -d --name caddy --restart always -p 80:80 -p 443:443 -v /home/wwwroot/:/site/ -v /root/.caddy:/data registry-vpc.cn-shanghai.aliyuncs.com/fifsky/caddy caddy -email fifsky@gmail.com -agree
+          docker logs caddy
+
+    - name: Dingtalk message
+      uses: fifsky/dingtalk-action@master
+      with:
+        url: ${{ secrets.DINGTALK_WEBHOOK}}
+        type: markdown
+        content: |
+          ## Github Action
+          > caddy deploy successful
+          > ^_^
