@@ -38,3 +38,9 @@ api.fifsky.com {
 
     proxy / gostruct:8989
 }
+
+hook.fifsky.com {
+    tls fifsky@gmail.com
+
+    proxy / 172.17.0.1:9876
+}
