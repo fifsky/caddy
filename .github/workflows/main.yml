@@ -18,7 +18,7 @@ jobs:
 
     - name: Pull docker and restart
       run: |
-        curl "https://hook.fifsky.com/?token=${{secrets.WEBHOOK_TOKEN}}&script=caddy"
+        curl -s "https://hook.fifsky.com/?token=${{secrets.WEBHOOK_TOKEN}}&script=caddy"
 
     - name: Dingtalk message
       uses: fifsky/dingtalk-action@master
